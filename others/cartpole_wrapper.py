@@ -103,5 +103,8 @@ class CartPoleWrapperDiscrete(Wrapper):
             return False
         return True if float(sum(rewards[-100:])) / 100 >= 195 else False
 
+    def render(self):
+        super().render()
+
     def penalty(self):
         return self._penalty

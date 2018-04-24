@@ -72,6 +72,7 @@ for run in range(num_runs):
     # reward of each episode
     for episode in range(num_episodes):
         rewards[episode] = agent.train()
+        wrapper.render()
         # Check if environment is solved
         if wrapper.solved(rewards[episode]):
             end_episode = episode

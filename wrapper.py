@@ -47,6 +47,9 @@ class Wrapper(object):
 
     def close(self):
         self._env.close()
+    
+    def render(self):
+        self._env.render()
 
     def actions(self):
         if self._actions is None:
