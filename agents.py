@@ -1,21 +1,3 @@
-# -*- coding: utf-8 -*-
-""" Base Agent class for Reinforcement Learning PA - Spring 2018
-
-Details:
-    File name:          base_agent.py
-    Author:             Anna Latour
-    Date created:       19 March 2018
-    Date last modified: 26 March 2018
-    Python Version:     3.4
-
-Description:
-    Implementation of a superclass for Reinforcement Learning Agents.
-
-Related files:
-    main.py
-    qlearner.py
-"""
-
 import numpy as np
 
 
@@ -67,3 +49,26 @@ class BaseAgent(object):
 
     def learn(self, *args, **kwargs):
         raise NotImplementedError("Subclass must implement abstract method")
+
+
+class MyAgent(BaseAgent):
+    """ TODO: add description for this class
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # TODO: implement the rest of your initialisation
+
+    def initialise_episode(self):
+        # TODO: implement your own method
+        pass
+
+    def select_action(self, *args):
+        # TODO: implement your own function
+        pass
+
+    def train(self):
+        # TODO: implement your own function
+        return reward
+
+    # TODO: implement all other functions and methods needed for your agent

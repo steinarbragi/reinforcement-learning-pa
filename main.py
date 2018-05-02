@@ -31,9 +31,9 @@ import argparse
 import pandas as pd
 from timeit import default_timer as timer
 from qlearner import QLearner
-from cartpole_wrapper import CartPoleWrapperDiscrete
+# from cartpole_wrapper import CartPoleWrapperDiscrete
 
-from my_agent import MyAgent
+from agents import MyAgent
 from lunarlander_wrapper import LunarLanderWrapper
 
 # Parse the arguments

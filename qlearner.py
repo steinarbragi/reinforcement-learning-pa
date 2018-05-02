@@ -17,7 +17,7 @@ Related files:
 """
 
 import numpy as np
-from base_agent import BaseAgent
+from agents import BaseAgent
 
 
 class QLearner(BaseAgent):
