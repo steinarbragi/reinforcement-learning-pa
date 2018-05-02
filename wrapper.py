@@ -22,7 +22,7 @@ import gym
 
 
 class Wrapper(object):
-    """ A Wrapper for an environment helps you to specify how you model the
+    """ Wrapper: A Supper class for an environment helps you to specify how you model the
     environment such that it can interface with a general Reinforcement Learning
     agent."""
 
