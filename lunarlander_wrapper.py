@@ -24,12 +24,22 @@ class LunarLanderWrapper(Wrapper):
     """
 
     _actions = []   # TODO: define list of actions (HINT: check LunarLander-v2 source code to figure out what those actions are)
-
+    _penalty = []
     def __init__(self):
         super().__init__(env_name='LunarLander-v2', actions=self._actions)  # Don't change environment name
-        # TODO: write the rest of your initialisation function
+        actions = [0, 1, 2]   # left (0), right (1), bottom (2)
+        _penalty = 0
+
 
     def solved(self, reward):
         return True if reward >= 200 else False
+
+    def episode_over(self):
+        #I guess it should return true if module has landed, crashed or gone out of frame?
+        pass
+        #return True if
+
+    def penalty(self):
+        return self._penalty
 
     # TODO: implement all other functions and methods needed for your wrapper

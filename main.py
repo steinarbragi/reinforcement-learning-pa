@@ -66,7 +66,7 @@ for run in range(num_runs):
 
     # Initialise environment and agent
     wrapper = LunarLanderWrapper()              # TODO: you have to implement this environment
-    agent = MyAgent(wrapper=wrapper, seed=run)  # TODO: you have to implement this agent
+    agent = QLearner(wrapper=wrapper, seed=run)  # TODO: you have to implement this agent
 
     # For each episode, train the agent on the environment and record the
     # reward of each episode
