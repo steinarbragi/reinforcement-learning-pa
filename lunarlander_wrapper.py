@@ -31,8 +31,10 @@ class LunarLanderWrapper(Wrapper):
         _penalty = 0
 
 
-    def solved(self, reward):
-        return True if reward >= 200 else False
+    def solved(self, rewards):
+        if (len(rewards) >= 100) and (sum(1 for r in rewards if r >= 200) >= 10):
+            return True
+        return False
 
     def episode_over(self):
         #I guess it should return true if module has landed, crashed or gone out of frame?
