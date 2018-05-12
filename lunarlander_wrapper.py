@@ -22,13 +22,20 @@ from wrapper import Wrapper
 class LunarLanderWrapper(Wrapper):
     """ TODO: Add a description for your wrapper
     """
+    # Action is two floats [main engine, left-right engines].
+    # Main engine: -1..0 off, 0..+1 throttle from 50% to 100% power. Engine can't work with less than 50% power.
+    # Left-right:  -1.0..-0.5 fire left engine, +0.5..+1.0 fire right engine, -0.5..0.5 off
 
-    _actions = []   # TODO: define list of actions (HINT: check LunarLander-v2 source code to figure out what those actions are)
+    _actions = [0.0,0.0]
     _penalty = []
     def __init__(self):
         super().__init__(env_name='LunarLander-v2', actions=self._actions)  # Don't change environment name
-        actions = [0, 1, 2]   # left (0), right (1), bottom (2)
-        _penalty = 0
+        self._bins = []
+
+
+
+    def get_bins(self):
+        return self._bins
 
 
     def solved(self, rewards):
