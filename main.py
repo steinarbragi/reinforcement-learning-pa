@@ -83,16 +83,18 @@ for run in range(num_runs):
 
     for episode in range(num_episodes):
         rewards[episode] = agent.train()
-        if (episode % 100) == 0 and episode != 0:
-            avg_last_100 = float(sum(rewards[episode-100:episode])) / 100
+        if (episode % 400) == 0 and episode != 0:
+            avg_last_400 = float(sum(rewards[episode-400:episode])) / 400
             #x = range(0,episode)
             #y_temp = rewards[episode-100:episode]
-            plt.scatter(episode,avg_last_100);
+            plt.scatter(episode,avg_last_400);
             plt.pause(0.05)
+        '''
         # Check if environment is solved
         if wrapper.solved(rewards[:episode]):
             end_episode = episode
             break
+        '''
     plt.pause(0.05)
     # Record and print performance
     runtime_per_run.append(timer() - start)
