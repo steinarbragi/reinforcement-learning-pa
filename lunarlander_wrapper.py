@@ -33,6 +33,8 @@ class LunarLanderWrapper(Wrapper):
     def __init__(self):
         super().__init__(env_name='LunarLander-v2', actions=self._actions)  # Don't change environment name
         
+        self._penalty = 20
+
         pos_x_lim = 10
         pos_y_lim = 10
         vel_x_lim = 1
@@ -40,8 +42,6 @@ class LunarLanderWrapper(Wrapper):
         ang_lim = 12 * 2 * math.pi / 360  # maximum angle (in radians)
         ang_velo_lim = 3.5 * 20
         
-
-
         n_pos_x_bins = 10
         n_pos_y_bins = 10
         n_vel_x_bins = 10
