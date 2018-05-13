@@ -35,19 +35,19 @@ class LunarLanderWrapper(Wrapper):
 
         pos_x_lim = 10
         pos_y_lim = 10
-        vel_x_lim = 1
-        vel_y_lim = 1
+        vel_x_lim = 10
+        vel_y_lim = 10
         ang_lim = 12 * 2 * math.pi / 360  # maximum angle (in radians)
-        ang_velo_lim = 3.5 * 20
+        ang_velo_lim = 3.5
         
-        n_pos_x_bins = 10
-        n_pos_y_bins = 10
-        n_vel_x_bins = 10
-        n_vel_y_bins = 10
-        n_ang_bins = 10
-        n_ang_velo_bins = 10
-        n_left_leg_bins = 10
-        n_right_leg_bins = 10
+        n_pos_x_bins = 20
+        n_pos_y_bins = 20
+        n_vel_x_bins = 20
+        n_vel_y_bins = 20
+        n_ang_bins = 50
+        n_ang_velo_bins = 40
+        n_left_leg_bins = 2
+        n_right_leg_bins = 2
         
         pos_x_bins = pd.cut([-pos_x_lim, pos_x_lim], bins=n_pos_x_bins, retbins=True)[1][1:-1]
         pos_y_bins = pd.cut([-pos_y_lim, pos_y_lim], bins=n_pos_y_bins, retbins=True)[1][1:-1]

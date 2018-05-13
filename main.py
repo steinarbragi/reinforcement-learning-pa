@@ -83,11 +83,9 @@ for run in range(num_runs):
 
     for episode in range(num_episodes):
         rewards[episode] = agent.train()
-        if (episode % 400) == 0 and episode != 0:
-            avg_last_400 = float(sum(rewards[episode-400:episode])) / 400
-            #x = range(0,episode)
-            #y_temp = rewards[episode-100:episode]
-            plt.scatter(episode,avg_last_400);
+        if (episode % 10) == 0 and episode != 0:
+            avg_last = float(sum(rewards[episode-10:episode])) / 10
+            plt.scatter(episode,avg_last);
             plt.pause(0.05)
         '''
         # Check if environment is solved
