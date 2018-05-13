@@ -28,7 +28,7 @@ class LunarLanderWrapper(Wrapper):
     # Main engine: -1..0 off, 0..+1 throttle from 50% to 100% power. Engine can't work with less than 50% power.
     # Left-right:  -1.0..-0.5 fire left engine, +0.5..+1.0 fire right engine, -0.5..0.5 off
 
-    _actions = [0.0,0.0]
+    _actions = [0,1,2,3]
 
     def __init__(self):
         super().__init__(env_name='LunarLander-v2', actions=self._actions)  # Don't change environment name
