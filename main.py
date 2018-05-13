@@ -80,11 +80,13 @@ for run in range(num_runs):
 
     fig=plt.figure()
     plt.axis([0,args.episodes,-300,300])
+    plt.xlabel('Episodes')
+    plt.ylabel('AVG Reward')
 
     for episode in range(num_episodes):
         rewards[episode] = agent.train()
-        if (episode % 10) == 0 and episode != 0:
-            avg_last = float(sum(rewards[episode-10:episode])) / 10
+        if (episode % 20) == 0 and episode != 0:
+            avg_last = float(sum(rewards[episode-20:episode])) / 20
             plt.scatter(episode,avg_last);
             plt.pause(0.05)
         '''

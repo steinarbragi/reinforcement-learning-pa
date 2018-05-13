@@ -35,6 +35,10 @@ from cartpole_wrapper import CartPoleWrapperDiscrete
 
 from agents import MyAgent
 from lunarlander_wrapper import LunarLanderWrapper
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from matplotlib import style
+
 
 # Parse the arguments
 parser = argparse.ArgumentParser(description="Experiment parameters")
@@ -68,10 +72,21 @@ for run in range(num_runs):
     wrapper = CartPoleWrapperDiscrete()
     agent = QLearner(wrapper=wrapper, seed=run)
 
+    style.use('fivethirtyeight')
+
+    fig=plt.figure()
+    plt.axis([0,args.episodes,0,300])
+    plt.xlabel('Episodes')
+    plt.ylabel('AVG Reward last 50 episodes')
+
     # For each episode, train the agent on the environment and record the
     # reward of each episode
     for episode in range(num_episodes):
         rewards[episode] = agent.train()
+        if (episode % 50) == 0 and episode != 0:
+            avg_last = float(sum(rewards[episode-50:episode])) / 50
+            plt.scatter(episode,avg_last);
+            plt.pause(0.05)
         # Check if environment is solved
         if wrapper.solved(rewards[:episode]):
             end_episode = episode

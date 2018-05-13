@@ -31,14 +31,14 @@ class LunarLanderWrapper(Wrapper):
     def __init__(self):
         super().__init__(env_name='LunarLander-v2', actions=self._actions)  # Don't change environment name
         
-        self._penalty = 20
+        self._penalty = -20
 
         pos_x_lim = 10
         pos_y_lim = 10
         vel_x_lim = 10
         vel_y_lim = 10
-        ang_lim = 12 * 2 * math.pi / 360  # maximum angle (in radians)
-        ang_velo_lim = 3.5
+        ang_lim = 6 * 2 * math.pi / 360  # maximum angle (in radians)
+        ang_velo_lim = 2
         
         n_pos_x_bins = 20
         n_pos_y_bins = 20
@@ -83,7 +83,8 @@ class LunarLanderWrapper(Wrapper):
         return False
 
     def episode_over(self):
-        return self._env.unwrapped.game_over
+        return True if self._number_of_steps >= 200 else False
+        #return self._env.unwrapped.game_over
 
     def render(self):
         self._env.render()
