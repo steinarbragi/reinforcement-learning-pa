@@ -67,12 +67,12 @@ for run in range(num_runs):
     # Initialise environment and agent
     wrapper = LunarLanderWrapper()              # TODO: you have to implement this environment
     agent = QLearner(wrapper=wrapper, seed=run)  # TODO: you have to implement this agent
-
     # For each episode, train the agent on the environment and record the
     # reward of each episode
     for episode in range(num_episodes):
         rewards[episode] = agent.train()
-        #wrapper.render()
+        if (episode % 100) == 0 and episode != 0:
+            print(float(sum(rewards[episode-100:episode])) / 100)
         # Check if environment is solved
         if wrapper.solved(rewards[:episode]):
             end_episode = episode
@@ -81,6 +81,9 @@ for run in range(num_runs):
     # Record and print performance
     runtime_per_run.append(timer() - start)
     rewards_per_run['run' + str(run)] = rewards
+    if end_episode >= 99:
+        print('average reward of last 100 episodes of run', run,
+            '=', float(sum(rewards[-100:])) / 100)
     print('end episode # = ', end_episode)
 
     # Close environment

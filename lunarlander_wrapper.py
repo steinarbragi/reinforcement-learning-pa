@@ -24,10 +24,8 @@ import pandas as pd
 class LunarLanderWrapper(Wrapper):
     """ TODO: Add a description for your wrapper
     """
-    # Action is two floats [main engine, left-right engines].
-    # Main engine: -1..0 off, 0..+1 throttle from 50% to 100% power. Engine can't work with less than 50% power.
-    # Left-right:  -1.0..-0.5 fire left engine, +0.5..+1.0 fire right engine, -0.5..0.5 off
 
+    # Discrete action space: 0: nothing, 1: main, 2:left, 3: right
     _actions = [0,1,2,3]
 
     def __init__(self):
@@ -85,9 +83,10 @@ class LunarLanderWrapper(Wrapper):
         return False
 
     def episode_over(self):
-        #I guess it should return true if module has landed, crashed or gone out of frame?
-        pass
-        #return True if
+        return self._env.unwrapped.game_over
+
+    def render(self):
+        self._env.render()
 
     def penalty(self):
         return self._penalty
