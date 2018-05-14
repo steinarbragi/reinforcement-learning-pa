@@ -49,32 +49,3 @@ class BaseAgent(object):
 
     def learn(self, *args, **kwargs):
         raise NotImplementedError("Subclass must implement abstract method")
-
-
-class MyAgent(BaseAgent):
-    """ TODO: add description for this class
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._actions = self._wrapper.actions()
-        self._action_value = dict()
-        # TODO: implement the rest of your initialisation
-
-    def initialise_episode(self):
-        self._total_reward = 0
-        return self._wrapper.reset()
-
-    def select_action(self, state):
-        q = [self.get_action_value(state, a) for a in self._actions]
-        a_id = self.epsilon_greedy(q)
-        return self._actions[a_id]
-
-    def get_action_value(self, state, action):
-        return self._q.get((state, action), 0.0)
-
-    def train(self):
-        # TODO: implement your own function
-        return self._total_reward
-
-    # TODO: implement all other functions and methods needed for your agent

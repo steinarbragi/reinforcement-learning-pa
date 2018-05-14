@@ -30,13 +30,7 @@ class LunarLanderWrapper(Wrapper):
 
     def __init__(self):
         super().__init__(env_name='LunarLander-v2', actions=self._actions)  # Don't change environment name
-        
-        self._penalty = -100
-
-
-    def get_bins(self):
-        return self._bins
-
+        self._penalty = 0
 
     def solved(self, rewards):
         if (len(rewards) >= 100) and (sum(1 for r in rewards if r >= 200) >= 10):
@@ -50,7 +44,7 @@ class LunarLanderWrapper(Wrapper):
     def render(self):
         self._env.render()
 
-    def penalty(self):
-        return self._penalty
+    #def penalty(self):
+    #    return self._penalty
 
     # TODO: implement all other functions and methods needed for your wrapper

@@ -30,9 +30,10 @@ How to run:
 import argparse
 import pandas as pd
 from timeit import default_timer as timer
-from qlearner import QLearner
+#from qlearner import QLearner
 # from cartpole_wrapper import CartPoleWrapperDiscrete
 
+from pg_agent import PGAgent
 from lunarlander_wrapper import LunarLanderWrapper
 
 import matplotlib.pyplot as plt
@@ -71,7 +72,8 @@ for run in range(num_runs):
 
     # Initialise environment and agent
     wrapper = LunarLanderWrapper()              # TODO: you have to implement this environment
-    agent = QLearner(wrapper=wrapper, seed=run)  # TODO: you have to implement this agent
+    #agent = QLearner(wrapper=wrapper, seed=run)  # TODO: you have to implement this agent
+    agent = PGAgent(wrapper=wrapper, seed=run)
     # For each episode, train the agent on the environment and record the
     # reward of each episode
 
@@ -85,9 +87,10 @@ for run in range(num_runs):
     for episode in range(num_episodes):
         rewards[episode] = agent.train()
         if (episode % 20) == 0 and episode != 0:
-            avg_last = float(sum(rewards[episode-20:episode])) / 20
-            plt.scatter(episode,avg_last);
-            plt.pause(0.05)
+            print('Episode: ',rewards[episode])
+        #    avg_last = float(sum(rewards[episode-20:episode])) / 20
+        #   plt.scatter(episode,avg_last);
+        #    plt.pause(0.05)
         '''
         # Check if environment is solved
         if wrapper.solved(rewards[:episode]):
