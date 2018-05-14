@@ -39,7 +39,7 @@ class PGAgent(BaseAgent):
         self.lr = gamma
         self.gamma = 0.99
         self.rewards = []
-        self.episode_observations, self.episode_actions, self.episode_rewards = [], [], []
+        self.episode_state, self.episode_actions, self.episode_rewards = [], [], []
 
         self.build_network()
 
@@ -59,6 +59,7 @@ class PGAgent(BaseAgent):
         self.episode_observations.append(s)
         self.episode_rewards.append(r)
         self.episode_actions.append(a)
+        
 
     def initialise_episode(self):
         ##self._total_reward = 0
@@ -94,7 +95,7 @@ class PGAgent(BaseAgent):
             
             if render_env: self._wrapper.render()
             action = self.select_action(state)
-            observation_, reward, done, info = self._wrapper.step(action)
+            state_, reward, done, info = self._wrapper.step(action)
             self.store_transition(state,action,reward)
 
             toc = time.clock()
@@ -109,23 +110,28 @@ class PGAgent(BaseAgent):
                 episode_rewards_sum = sum(self.episode_rewards)
                 self.rewards.append(episode_rewards_sum)
                 max_reward_so_far = np.amax(self.rewards)
+                print("==========================================")
+                print('Max Reward So Far: ',max_reward_so_far)
+                print("Seconds: ", elapsed_sec)
 
                 reward = self.discount_and_norm_rewards()
 
                 # Train on episode
                 self.sess.run(self.train_op, feed_dict={
-                    self.X: np.vstack(self.episode_observations), # shape [ examples, number of inputs]
+                    self.X: np.vstack(self.episode_state), # shape [ examples, number of inputs]
                     self.Y: np.array(self.episode_actions), # shape [actions, ]
                     self.reward: reward,
                 })
 
                 # Reset the episode data
-                self.episode_observations, self.episode_actions, self.episode_rewards  = [], [], []
+                self.episode_state, self.episode_actions, self.episode_rewards  = [], [], []
 
                 if max_reward_so_far > RENDER_REWARD_MIN: render_env = True
                 else: render_env = False
 
                 break
+        #update state
+        state = state_
 
         return episode_rewards_sum
     
