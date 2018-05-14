@@ -21,11 +21,10 @@ from base_agent import BaseAgent
 import tensorflow as tf
 import numpy as np
 from tensorflow.python.framework import ops
+import time
 
-RENDER_ENV = True
-EPISODES = 5000
-rewards = []
-RENDER_REWARD_MIN = 5000
+
+RENDER_REWARD_MIN = 0
 
 
 class PGAgent(BaseAgent):
@@ -34,7 +33,7 @@ class PGAgent(BaseAgent):
 
     def __init__(self, *args, gamma=0.02, **kwargs):
         super().__init__(*args, **kwargs)
-        
+        self._wrapper._env.seed(kwargs['seed'])
         self.n_x = self._wrapper._env.observation_space.shape[0]
         self.n_y = self._wrapper._env.action_space.n
         self.lr = gamma
@@ -89,13 +88,21 @@ class PGAgent(BaseAgent):
         # Discount and normalize episode reward
 
         state = self.initialise_episode()
-
+        render_env = False
+        tic = time.clock()
         while True:
+            
+            if render_env: self._wrapper.render()
             action = self.select_action(state)
             observation_, reward, done, info = self._wrapper.step(action)
             self.store_transition(state,action,reward)
 
-            if(self._wrapper.episode_over()):
+            toc = time.clock()
+            elapsed_sec = toc - tic
+            if elapsed_sec > 120:
+                done = True
+
+            if(sum(self.episode_rewards) < -250):
                 done = True
 
             if done:
@@ -112,16 +119,15 @@ class PGAgent(BaseAgent):
                     self.reward: reward,
                 })
 
-
-
                 # Reset the episode data
                 self.episode_observations, self.episode_actions, self.episode_rewards  = [], [], []
 
-                if max_reward_so_far > RENDER_REWARD_MIN: RENDER_ENV = True
+                if max_reward_so_far > RENDER_REWARD_MIN: render_env = True
+                else: render_env = False
 
                 break
 
-        return reward
+        return episode_rewards_sum
     
     def discount_and_norm_rewards(self):
         reward = np.zeros_like(self.episode_rewards)

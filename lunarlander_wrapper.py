@@ -83,7 +83,7 @@ class LunarLanderWrapper(Wrapper):
         return False
 
     def episode_over(self):
-        return True if self._number_of_steps >= 200 else False
+        return True if self._number_of_steps >= 5000 else False
         #return self._env.unwrapped.game_over
 
     def render(self):
