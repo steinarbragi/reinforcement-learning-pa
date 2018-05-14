@@ -33,7 +33,6 @@ from timeit import default_timer as timer
 from qlearner import QLearner
 # from cartpole_wrapper import CartPoleWrapperDiscrete
 
-from agents import MyAgent
 from lunarlander_wrapper import LunarLanderWrapper
 
 import matplotlib.pyplot as plt
