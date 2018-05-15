@@ -90,7 +90,6 @@ class PGAgent(BaseAgent):
         return action
 
     def train(self):
-        # Discount and normalize episode reward
 
         state = self.initialise_episode()
         render_env = False
@@ -117,7 +116,8 @@ class PGAgent(BaseAgent):
                 print("==========================================")
                 print('Max Reward So Far: ',max_reward_so_far)
                 print("Seconds: ", elapsed_sec)
-
+                
+                # Discount and normalize episode reward
                 reward = self.discount_and_norm_rewards()
 
                 # Train on episode
@@ -134,8 +134,8 @@ class PGAgent(BaseAgent):
                 else: render_env = False
 
                 break
-        #update state
-        state = state_
+            #update state
+            state = state_
 
         return episode_rewards_sum
     
