@@ -30,9 +30,10 @@ class LunarLanderWrapper(Wrapper):
 
     def __init__(self):
         super().__init__(env_name='LunarLander-v2', actions=self._actions)  # Don't change environment name
-        
+        self.init_bins()
         self._penalty = -100
 
+    def init_bins(self):
         pos_x_lim = 10
         pos_y_lim = 10
         vel_x_lim = 10

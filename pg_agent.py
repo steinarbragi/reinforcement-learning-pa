@@ -194,6 +194,3 @@ class PGAgent(BaseAgent):
 
         with tf.name_scope('train'):
             self.train_op = tf.train.AdamOptimizer(self.lr).minimize(loss)
-
-
-    # TODO: implement all other functions and methods needed for your agent
