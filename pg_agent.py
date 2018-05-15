@@ -24,7 +24,8 @@ from tensorflow.python.framework import ops
 import time
 
 
-RENDER_REWARD_MIN = 0
+RENDER_REWARD_MIN = 200
+RENDER_ENV = False
 
 
 class PGAgent(BaseAgent):
@@ -91,12 +92,12 @@ class PGAgent(BaseAgent):
 
     def train(self):
 
+        global RENDER_ENV
         state = self.initialise_episode()
-        render_env = False
         tic = time.clock()
         while True:
             
-            if render_env: self._wrapper.render()
+            if RENDER_ENV: self._wrapper.render()
             action = self.select_action(state)
             state_, reward, done, info = self._wrapper.step(action)
             self.store_transition(state,action,reward)
@@ -130,8 +131,8 @@ class PGAgent(BaseAgent):
                 # Reset the episode data
                 self.episode_state, self.episode_actions, self.episode_rewards  = [], [], []
 
-                if max_reward_so_far > RENDER_REWARD_MIN: render_env = True
-                else: render_env = False
+                if max_reward_so_far > RENDER_REWARD_MIN: RENDER_ENV = True
+                else: RENDER_ENV = False
 
                 break
             #update state
