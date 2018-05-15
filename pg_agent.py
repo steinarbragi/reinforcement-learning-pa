@@ -44,6 +44,10 @@ class PGAgent(BaseAgent):
         self.build_network()
 
         self.sess = tf.Session()
+        
+        # $ tensorboard --logdir=logs
+        # http://0.0.0.0:6006/
+        tf.summary.FileWriter("logs/", self.sess.graph)
 
         self.sess.run(tf.global_variables_initializer())
 
@@ -56,7 +60,7 @@ class PGAgent(BaseAgent):
                 a: action taken
                 r: reward after action
         """
-        self.episode_observations.append(s)
+        self.episode_state.append(s)
         self.episode_rewards.append(r)
         self.episode_actions.append(a)
         
