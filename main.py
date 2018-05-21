@@ -36,9 +36,9 @@ from timeit import default_timer as timer
 from pg_agent import PGAgent
 from lunarlander_wrapper import LunarLanderWrapper
 
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib import style
+#import matplotlib.pyplot as plt
+#import matplotlib.animation as animation
+#from matplotlib import style
 
 # Parse the arguments
 parser = argparse.ArgumentParser(description="Experiment parameters")
@@ -59,7 +59,6 @@ num_runs = args.runs
 # Initialise result data structures
 rewards_per_run = dict()
 runtime_per_run = []
-plt_rewards = []
 rewards = []
 
 # For each run, train agent until environment is solved, or episode budget 
@@ -77,12 +76,12 @@ for run in range(num_runs):
     # For each episode, train the agent on the environment and record the
     # reward of each episode
 
-    style.use('fivethirtyeight')
+    #style.use('fivethirtyeight')
 
-    fig=plt.figure()
-    plt.axis([0,args.episodes,-300,300])
-    plt.xlabel('Episodes')
-    plt.ylabel('AVG Reward')
+    #fig=plt.figure()
+    #plt.axis([0,args.episodes,-300,300])
+    #plt.xlabel('Episodes')
+    #plt.ylabel('AVG Reward')
 
     for episode in range(num_episodes):
         rewards[episode] = agent.train()
@@ -111,7 +110,7 @@ for run in range(num_runs):
     # Close environment
     wrapper.close()
 
-plt.show()
+#plt.show()
 # Store results
 df_rewards = pd.DataFrame(rewards_per_run)
 df_rewards.to_csv('lunarlander_rewards.csv')

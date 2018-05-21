@@ -52,14 +52,9 @@ class PGAgent(BaseAgent):
 
         self.sess.run(tf.global_variables_initializer())
 
-    def store_transition(self, s, a, r):
+    def store_step(self, s, a, r):
         """
-            Store play memory for training
-
-            Arguments:
-                s: observation
-                a: action taken
-                r: reward after action
+        Store state, rewards and actions for current timestep
         """
         self.episode_state.append(s)
         self.episode_rewards.append(r)
@@ -72,25 +67,25 @@ class PGAgent(BaseAgent):
 
     def select_action(self, state):
         """
-            Choose action based on observation
-
-            Arguments:
-                observation: array of state, has shape (num_features)
-
-            Returns: index of action we want to choose
+            Choose action based on observation our observation state.
+            First, reshape the observation state and
+            do forward propagation to get action probabilities,
+            then select an action from the resulting biased sample
         """
-        # Reshape observation to (1, num_features)
         state = state[np.newaxis, :]
-
-        # Run forward propagation to get softmax probabilities
         prob_weights = self.sess.run(self.outputs_softmax, feed_dict = {self.X: state})
-
-        # Select action using a biased sample
-        # this will return the index of the action we've sampled
         action = np.random.choice(range(len(prob_weights.ravel())), p=prob_weights.ravel())
         return action
 
     def train(self):
+
+        """
+            This function is called at the beginning of each episode.
+            The main loop runs for each timestep, continuously using
+            the current observation state to select actions and 
+            store the whole state,action, reward history in memory.
+            When the episode is done, train the network and reset the history.
+        """
 
         global RENDER_ENV
         state = self.initialise_episode()
@@ -100,7 +95,7 @@ class PGAgent(BaseAgent):
             if RENDER_ENV: self._wrapper.render()
             action = self.select_action(state)
             state_, reward, done, info = self._wrapper.step(action)
-            self.store_transition(state,action,reward)
+            self.store_step(state,action,reward)
 
             toc = time.clock()
             elapsed_sec = toc - tic
