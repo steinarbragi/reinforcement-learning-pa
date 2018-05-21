@@ -1,3 +1,0 @@
-[submodule "policy-gradient"]
-	path = openai-gym-policy-gradient
-	url = https://github.com/gabrielgarza/openai-gym-policy-gradient.git
