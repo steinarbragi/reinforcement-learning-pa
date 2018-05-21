@@ -41,15 +41,14 @@ class MyAgent(BaseAgent):
 
         self.init_network()
 
+        #TensorFlow session and logging
         self.sess = tf.Session()
-        
         tf.summary.FileWriter("logs/", self.sess.graph)
-
         self.sess.run(tf.global_variables_initializer())
 
     def store_step(self, s, a, r):
         """
-        Store state, rewards and actions for current timestep
+        Store state, rewards and actions for current timestep in episode history
         """
         self.episode_state.append(s)
         self.episode_rewards.append(r)
@@ -57,7 +56,6 @@ class MyAgent(BaseAgent):
         
 
     def initialise_episode(self):
-        ##self._total_reward = 0
         return self._wrapper.reset()
 
     def select_action(self, state):
@@ -113,14 +111,14 @@ class MyAgent(BaseAgent):
                 # Discount and normalize episode reward
                 normalized_discounted_rewards = self.normalize_discounted()
                 
-                # Train on episode
+                # Train from episode history
                 self.sess.run(self.train_op, feed_dict={
                     self.X: np.vstack(self.episode_state), # shape [ examples, number of inputs]
                     self.Y: np.array(self.episode_actions), # shape [actions, ]
                     self.reward: normalized_discounted_rewards,
                 })
 
-                # Reset the episode data
+                #Reset episode history when done
                 self.episode_state, self.episode_actions, self.episode_rewards  = [], [], []
 
                 break
@@ -142,6 +140,12 @@ class MyAgent(BaseAgent):
 
 
     def init_network(self):
+        '''
+        Initialize the TensorFlow Neural Network.
+        Training inputs contain observations (X), actions(Y) and reward
+        A1 and A2 are our two hidden layers.
+        The output layer Z3 represents action probabilities.
+        '''
         tf.reset_default_graph()
         with tf.name_scope('inputs'):
             self.X = tf.placeholder(tf.float32, [None, self.n_x], name="X")
@@ -177,13 +181,13 @@ class MyAgent(BaseAgent):
             name='fc3',
             reuse=tf.AUTO_REUSE
         )
-
-        # Softmax outputs
+        #Softmax output
         self.outputs_softmax = tf.nn.softmax(Z3, name='A3')
-
         with tf.name_scope('loss'):
+            #Get negative log probabilities from sparse softmax crossentropy
             neg_log_prob = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=Z3, labels=self.Y)
-            loss = tf.reduce_mean(neg_log_prob * self.reward)  # reward guided loss
-
+            #Calculate reward-guided-loss
+            loss = tf.reduce_mean(neg_log_prob * self.reward)
         with tf.name_scope('train'):
+            #train the model with reward-guided loss to encourage good actions
             self.train_op = tf.train.AdamOptimizer(self.lr).minimize(loss)

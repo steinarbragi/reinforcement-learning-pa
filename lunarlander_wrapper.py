@@ -30,10 +30,14 @@ class LunarLanderWrapper(Wrapper):
 
     def __init__(self):
         super().__init__(env_name='LunarLander-v2', actions=self._actions)  # Don't change environment name
-        self.init_bins()
+        self.init_bins() #initialize bins for Q-Learner
         self._penalty = -100
 
     def init_bins(self):
+        '''
+        This function models the LunarLander Environment using bins and value limits.
+        To be used with the Q-Learning Agent
+        '''
         pos_x_lim = 10
         pos_y_lim = 10
         vel_x_lim = 10
@@ -92,5 +96,3 @@ class LunarLanderWrapper(Wrapper):
 
     def penalty(self):
         return self._penalty
-
-    # TODO: implement all other functions and methods needed for your wrapper
