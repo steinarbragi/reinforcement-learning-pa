@@ -24,7 +24,7 @@ from tensorflow.python.framework import ops
 import time
 
 
-RENDER_REWARD_MIN = 200
+RENDER_REWARD_MIN = 300
 RENDER_ENV = False
 
 
@@ -153,6 +153,7 @@ class PGAgent(BaseAgent):
 
 
     def build_network(self):
+        tf.reset_default_graph()
         with tf.name_scope('inputs'):
             self.X = tf.placeholder(tf.float32, [None, self.n_x], name="X")
             self.Y = tf.placeholder(tf.int32, [None, ], name="Y")
@@ -164,7 +165,8 @@ class PGAgent(BaseAgent):
             activation=tf.nn.relu,
             kernel_initializer=tf.random_normal_initializer(mean=0, stddev=0.3),
             bias_initializer=tf.constant_initializer(0.1),
-            name='fc1'
+            name='fc1',
+            reuse=tf.AUTO_REUSE
         )
         # fc2
         A2 = tf.layers.dense(
@@ -173,7 +175,8 @@ class PGAgent(BaseAgent):
             activation=tf.nn.relu,
             kernel_initializer=tf.random_normal_initializer(mean=0, stddev=0.3),
             bias_initializer=tf.constant_initializer(0.1),
-            name='fc2'
+            name='fc2',
+            reuse=tf.AUTO_REUSE
         )
         # fc3
         Z3 = tf.layers.dense(
@@ -182,7 +185,8 @@ class PGAgent(BaseAgent):
             activation=None,
             kernel_initializer=tf.random_normal_initializer(mean=0, stddev=0.3),
             bias_initializer=tf.constant_initializer(0.1),
-            name='fc3'
+            name='fc3',
+            reuse=tf.AUTO_REUSE
         )
 
         # Softmax outputs
