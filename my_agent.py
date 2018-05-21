@@ -24,11 +24,6 @@ import numpy as np
 from tensorflow.python.framework import ops
 import time
 
-
-RENDER_REWARD_MIN = 300
-RENDER_ENV = False
-
-
 class MyAgent(BaseAgent):
     """ This class provides functions for a Deep Policy Gradient Agent, 
     and can be used with OpenAI gym environment wrappers.
@@ -112,22 +107,21 @@ class MyAgent(BaseAgent):
                 print("==========================================")
                 print('Max Reward So Far: ',max_reward_so_far)
                 print("Seconds: ", elapsed_sec)
+                print('Reward: ', episode_rewards_sum)
+                
                 
                 # Discount and normalize episode reward
-                reward = self.discount_and_norm_rewards()
-
+                normalized_discounted_rewards = self.normalize_discounted()
+                
                 # Train on episode
                 self.sess.run(self.train_op, feed_dict={
                     self.X: np.vstack(self.episode_state), # shape [ examples, number of inputs]
                     self.Y: np.array(self.episode_actions), # shape [actions, ]
-                    self.reward: reward,
+                    self.reward: normalized_discounted_rewards,
                 })
 
                 # Reset the episode data
                 self.episode_state, self.episode_actions, self.episode_rewards  = [], [], []
-
-                if max_reward_so_far > RENDER_REWARD_MIN: RENDER_ENV = True
-                else: RENDER_ENV = False
 
                 break
             #update state
@@ -135,7 +129,7 @@ class MyAgent(BaseAgent):
 
         return episode_rewards_sum
     
-    def discount_and_norm_rewards(self):
+    def normalize_discounted(self):
         reward = np.zeros_like(self.episode_rewards)
         cumulative = 0
         for t in reversed(range(len(self.episode_rewards))):
