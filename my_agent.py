@@ -11,7 +11,7 @@ Details:
 Description:
     A Deep Policy Gradient agent with a 3 layer neural network. 
     It uses reward-guided softmax cross-entropy loss function, and the Adam Optimizer.
-    The rewards are normalized and discounted for stability.
+    The rewards are normalized and discounted for increased stability.
 
 Related files:
     base_agent.py
