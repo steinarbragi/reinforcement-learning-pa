@@ -1,3 +1,4 @@
+*.png
 .idea/
 *.swp
 *.DS_Store

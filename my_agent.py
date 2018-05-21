@@ -29,7 +29,7 @@ RENDER_REWARD_MIN = 300
 RENDER_ENV = False
 
 
-class PGAgent(BaseAgent):
+class MyAgent(BaseAgent):
     """ This class provides functions for a Deep Policy Gradient Agent, 
     and can be used with OpenAI gym environment wrappers.
     """
@@ -40,11 +40,11 @@ class PGAgent(BaseAgent):
         self.n_x = self._wrapper._env.observation_space.shape[0]
         self.n_y = self._wrapper._env.action_space.n
         self.lr = gamma
-        self.gamma = 0.99
+        self.discount = 0.99
         self.rewards = []
         self.episode_state, self.episode_actions, self.episode_rewards = [], [], []
 
-        self.build_network()
+        self.init_network()
 
         self.sess = tf.Session()
         
@@ -139,7 +139,7 @@ class PGAgent(BaseAgent):
         reward = np.zeros_like(self.episode_rewards)
         cumulative = 0
         for t in reversed(range(len(self.episode_rewards))):
-            cumulative = cumulative * self.gamma + self.episode_rewards[t]
+            cumulative = cumulative * self.discount + self.episode_rewards[t]
             reward[t] = cumulative
 
         reward -= np.mean(reward)
@@ -147,7 +147,7 @@ class PGAgent(BaseAgent):
         return reward
 
 
-    def build_network(self):
+    def init_network(self):
         tf.reset_default_graph()
         with tf.name_scope('inputs'):
             self.X = tf.placeholder(tf.float32, [None, self.n_x], name="X")

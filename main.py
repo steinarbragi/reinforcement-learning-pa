@@ -33,7 +33,7 @@ from timeit import default_timer as timer
 #from qlearner import QLearner
 # from cartpole_wrapper import CartPoleWrapperDiscrete
 
-from pg_agent import PGAgent
+from my_agent import MyAgent
 from lunarlander_wrapper import LunarLanderWrapper
 
 #import matplotlib.pyplot as plt
@@ -72,7 +72,7 @@ for run in range(num_runs):
     # Initialise environment and agent
     wrapper = LunarLanderWrapper()              # TODO: you have to implement this environment
     #agent = QLearner(wrapper=wrapper, seed=run)  # TODO: you have to implement this agent
-    agent = PGAgent(wrapper=wrapper, seed=run)
+    agent = MyAgent(wrapper=wrapper, seed=run)
     # For each episode, train the agent on the environment and record the
     # reward of each episode
 
