@@ -12,6 +12,7 @@ Description:
     A Deep Policy Gradient agent with a 3 layer neural network. 
     It uses reward-guided softmax cross-entropy loss function, and the Adam Optimizer.
     The rewards are normalized and discounted for increased stability.
+    The Neural Network structure, as well as using Adam in combination with a reward-guided loss function was inspired by Gabriel Garza's blog post https://medium.com/@gabogarza/deep-reinforcement-learning-policy-gradients-8f6df70404e6.
 
 Related files:
     base_agent.py
@@ -60,10 +61,10 @@ class MyAgent(BaseAgent):
 
     def select_action(self, state):
         """
-            Choose action based on observation our observation state.
+            Choose action based on our observation state.
             First, reshape the observation state and
             do forward propagation to get action probabilities,
-            then select an action from the resulting biased sample
+            then select an action from a biased sample
         """
         state = state[np.newaxis, :]
         prob_weights = self.sess.run(self.outputs_softmax, feed_dict = {self.X: state})
