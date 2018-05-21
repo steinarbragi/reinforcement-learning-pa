@@ -3,9 +3,9 @@
 
 Details:
     File name:          lunarlander_wrapper.py
-    Author(s):          TODO: fill in your own name(s) and student ID(s)
+    Author(s):          Sevak Mardirosian - s2077086 & Steinar Bragi Sigurðarson - s2017873
     Date created:       28 March 2018
-    Date last modified: TODO: fill in
+    Date last modified: 21 May 2018
     Python Version:     3.4
 
 Description:
@@ -22,7 +22,10 @@ import pandas as pd
 
 
 class LunarLanderWrapper(Wrapper):
-    """ TODO: Add a description for your wrapper
+    """ 
+    A simple wrapper for the Lunar Lander Environment.
+    It works with the Qlearning agent, as well as the Policy Gradient Agent.
+    The constructor initialized bins to be used with Q-Learning. 
     """
 
     # Discrete action space: 0: nothing, 1: main, 2:left, 3: right
